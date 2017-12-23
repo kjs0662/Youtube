@@ -20,6 +20,7 @@
 		F31BE8501FE97C0F0000E43D /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31BE84F1FE97C0F0000E43D /* Video.swift */; };
 		F31BE8521FEB9E040000E43D /* SettingsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31BE8511FEB9E040000E43D /* SettingsLauncher.swift */; };
 		F31BE8541FEBA8C60000E43D /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31BE8531FEBA8C60000E43D /* SettingCell.swift */; };
+		F31BE8571FEE50210000E43D /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31BE8561FEE50210000E43D /* ApiService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		F31BE84F1FE97C0F0000E43D /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		F31BE8511FEB9E040000E43D /* SettingsLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLauncher.swift; sourceTree = "<group>"; };
 		F31BE8531FEBA8C60000E43D /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
+		F31BE8561FEE50210000E43D /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 		F31BE8161FE90AE20000E43D /* Youtube */ = {
 			isa = PBXGroup;
 			children = (
+				F31BE8551FEE500E0000E43D /* ApiService */,
 				F31BE84E1FE97C010000E43D /* Model */,
 				F31BE84B1FE9311A0000E43D /* Controller */,
 				F31BE8481FE930C40000E43D /* View */,
@@ -173,6 +176,14 @@
 				F31BE84F1FE97C0F0000E43D /* Video.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		F31BE8551FEE500E0000E43D /* ApiService */ = {
+			isa = PBXGroup;
+			children = (
+				F31BE8561FEE50210000E43D /* ApiService.swift */,
+			);
+			path = ApiService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,6 +325,7 @@
 				F31BE8541FEBA8C60000E43D /* SettingCell.swift in Sources */,
 				F31BE84A1FE930E10000E43D /* VideoCell.swift in Sources */,
 				F31BE8521FEB9E040000E43D /* SettingsLauncher.swift in Sources */,
+				F31BE8571FEE50210000E43D /* ApiService.swift in Sources */,
 				F31BE8471FE930820000E43D /* Extensions.swift in Sources */,
 				F31BE8181FE90AE20000E43D /* AppDelegate.swift in Sources */,
 				F31BE84D1FE93C3D0000E43D /* MenuBar.swift in Sources */,

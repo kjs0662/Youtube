@@ -10,64 +10,13 @@ import UIKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-//    var videos: [Video] = {
-//        var kanyeChannel = Channel()
-//        kanyeChannel.name = "KanyeIsTheBestChannel"
-//        kanyeChannel.profileImageName = "kanye_profile"
-//
-//       var blankSpaceVideo = Video()
-//        blankSpaceVideo.title = "TaylorSwift - Blank Space"
-//        blankSpaceVideo.thumbnailImageName = "taylor_swift_blank_space"
-//        blankSpaceVideo.channel = kanyeChannel
-//        blankSpaceVideo.numberOfViews = 234124324
-//
-//        var badBloodVideo = Video()
-//        badBloodVideo.title = "Taylor Swift - Bad Blood featuring Kendrick Lamar"
-//        badBloodVideo.thumbnailImageName = "taylor_swift_bad_blood"
-//        badBloodVideo.channel = kanyeChannel
-//        badBloodVideo.numberOfViews = 9872983
-//
-//        return [blankSpaceVideo, badBloodVideo]
-//    }()
-    
     var videos: [Video]?
     
     func fetchVideos() {
-        let url = URL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            if error != nil {
-                print(error, "Something wrong")
-                return
-            }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                self.videos = [Video]()
-                for dictionary in json as! [[String: Any]] {
-                    let video = Video()
-                    video.title = dictionary["title"] as? String
-                    video.thumbnailImageName = dictionary["thumbnail_image_name"] as? String
-                    
-                    let  channelDictionary = dictionary["channel"] as! [String: Any]
-                    let channel = Channel()
-                    channel.name = channelDictionary["name"] as? String
-                    channel.profileImageName = channelDictionary["profile_image_name"] as? String
-                    
-                    video.channel = channel
-                    
-                    self.videos?.append(video)
-                }
-                
-                DispatchQueue.main.async(execute: {
-                    self.collectionView?.reloadData()
-                })
-                
-            } catch let jsonError {
-                print(jsonError)
-            }
-            
-            
-        }.resume()
+        ApiService.sharedInstance.fetchVideo { (videos) in
+            self.videos = videos
+            self.collectionView?.reloadData()
+        }
     }
 
     override func viewDidLoad() {
@@ -75,33 +24,56 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Do any additional setup after loading the view, typically from a nib.
         fetchVideos()
         navigationController?.navigationBar.isTranslucent = false
-        
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
-        titleLabel.text = "Home"
-        titleLabel.textColor = UIColor.white
-        titleLabel.font = UIFont.systemFont(ofSize: 20)
-        
-        navigationItem.titleView = titleLabel
+        setupTitleView()
         
         collectionView?.backgroundColor = UIColor.white
         
         collectionView?.register(VideoCell.self, forCellWithReuseIdentifier: "cellID")
         
-        collectionView?.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
-        collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0)
+        collectionView?.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+//        collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 50)
         
         setupMenuBar()
         setupNavBarButtons()
     }
     
-    func setupNavBarButtons() {
-        let searchImage = UIImage(named: "search_icon")?.withRenderingMode(.alwaysOriginal)
-        let searchBarBtnItem = UIBarButtonItem(image: searchImage, style: .plain, target: self, action: #selector(handleSearch))
+    func setupTitleView() {
+        let logoView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
         
-        let moreImage = UIImage(named: "nav_more_icon")?.withRenderingMode(.alwaysOriginal)
+        let logoImage = UIImageView(image: UIImage(named: "YouTube_logo"))
+        logoImage.frame = CGRect(x: 8, y: 0, width: 100, height: logoView.frame.height)
+        logoImage.contentMode = .scaleAspectFit
+        logoImage.clipsToBounds = true
+        
+        logoView.addSubview(logoImage)
+        
+        navigationItem.titleView = logoView
+    }
+    
+    func setupNavBarButtons() {
+        let searchImage = UIImage(named: "search_icon")?.withRenderingMode(.alwaysTemplate)
+        let searchBarBtnItem = UIBarButtonItem(image: searchImage, style: .plain, target: self, action: #selector(handleSearch))
+        searchBarBtnItem.tintColor = UIColor.darkGray
+        
+        let moreImage = UIImage(named: "nav_more_icon")?.withRenderingMode(.alwaysTemplate)
         let moreBtn = UIBarButtonItem(image: moreImage, style: .plain, target: self, action: #selector(handleMore))
+        moreBtn.tintColor = UIColor.darkGray
         
         navigationItem.rightBarButtonItems = [moreBtn, searchBarBtnItem]
+        
+        navigationController?.navigationBar.layer.shadowOpacity = 0.5
+        navigationController?.navigationBar.layer.shadowRadius = 7
+        navigationController?.navigationBar.layer.shadowColor = UIColor.black.cgColor
+        
+        let videoCell = VideoCell()
+        let seperateView = videoCell.separatorView
+        seperateView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(seperateView)
+        seperateView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        seperateView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        seperateView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        seperateView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
     }
     
@@ -121,8 +93,8 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         let dummySettingsViewController = UIViewController()
         dummySettingsViewController.view.backgroundColor = UIColor.white
         dummySettingsViewController.navigationItem.title = setting.name.rawValue
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.tintColor = UIColor.darkGray
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
         navigationController?.pushViewController(dummySettingsViewController, animated: true)
     }
     
@@ -134,13 +106,21 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     let menuBar: MenuBar = {
         let mb = MenuBar()
+        mb.translatesAutoresizingMaskIntoConstraints = false
         return mb
     }()
     
     private func setupMenuBar() {
+        navigationController?.hidesBarsOnSwipe = true
+        
         view.addSubview(menuBar)
-        view.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
-        view.addConstraintsWithFormat(format: "V:|[v0(50)]", views: menuBar)
+        menuBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        menuBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        menuBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        menuBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+//        view.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
+//        view.addConstraintsWithFormat(format: "V:|[v0(50)]", views: menuBar)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
