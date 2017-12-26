@@ -19,6 +19,7 @@ class Video: NSObject {
     
 }
 
+
 class Channel: NSObject {
     var name: String?
     var profileImageName: String?
