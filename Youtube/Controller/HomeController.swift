@@ -10,21 +10,16 @@ import UIKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
-    var videos: [Video]?
     let cellID = "cellID"
     
-    func fetchVideos() {
-        ApiService.sharedInstance.fetchVideo { (videos) in
-            self.videos = videos
-            self.collectionView?.reloadData()
-        }
-    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        fetchVideos()
+        
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.hidesBarsOnSwipe = true
         setupTitleView()
         
         setupCollectionView()
@@ -40,8 +35,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         collectionView?.backgroundColor = UIColor.white
         
-//        collectionView?.register(VideoCell.self, forCellWithReuseIdentifier: "cellID")
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellID)
         
         collectionView?.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         //        collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 50)
@@ -127,7 +121,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }()
     
     private func setupMenuBar() {
-        navigationController?.hidesBarsOnSwipe = true
+        
         
         view.addSubview(menuBar)
         menuBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -154,37 +148,14 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
-        let colors: [UIColor] = [.blue, .green, .red, .yellow]
-        cell.backgroundColor = colors[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! FeedCell
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height)
+        return CGSize(width: view.frame.width, height: view.frame.height - 50)
     }
     
-//    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return videos?.count ?? 0
-//    }
-//
-//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellID", for: indexPath) as! VideoCell
-//
-//        cell.video = videos?[indexPath.row]
-//
-//
-//        return cell
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let height = (view.frame.width - 16 - 16) * 9 / 16
-//        return CGSize(width: view.frame.width, height: height + 88 + 16)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
 }
 
