@@ -11,7 +11,8 @@ import UIKit
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     let cellID = "cellID"
-    
+    let trendingCellID = "trendingCellID"
+    let subscriptionCellID = "subscriptionCellID"
     
 
     override func viewDidLoad() {
@@ -19,7 +20,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Do any additional setup after loading the view, typically from a nib.
         
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.hidesBarsOnSwipe = true
+//        navigationController?.hidesBarsOnSwipe = true
         setupTitleView()
         
         setupCollectionView()
@@ -36,6 +37,8 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.backgroundColor = UIColor.white
         
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView?.register(TrendingCell.self, forCellWithReuseIdentifier: trendingCellID)
+        collectionView?.register(SubscriptionCell.self, forCellWithReuseIdentifier: subscriptionCellID)
         
         collectionView?.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
         //        collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 50)
@@ -148,7 +151,18 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! FeedCell
+        let identifier: String
+        
+        if indexPath.item == 1 {
+            identifier = trendingCellID
+        } else if indexPath.item == 2 {
+            identifier = subscriptionCellID
+        } else {
+            identifier = cellID
+        }
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! FeedCell
+        
         
         return cell
     }

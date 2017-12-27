@@ -22,6 +22,8 @@
 		F31BE8541FEBA8C60000E43D /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31BE8531FEBA8C60000E43D /* SettingCell.swift */; };
 		F31BE8571FEE50210000E43D /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31BE8561FEE50210000E43D /* ApiService.swift */; };
 		F31BE8591FF2C2260000E43D /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31BE8581FF2C2260000E43D /* FeedCell.swift */; };
+		F31BE85B1FF3A9200000E43D /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31BE85A1FF3A9200000E43D /* TrendingCell.swift */; };
+		F31BE85D1FF3ABAC0000E43D /* SubscriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31BE85C1FF3ABAC0000E43D /* SubscriptionCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,8 @@
 		F31BE8531FEBA8C60000E43D /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		F31BE8561FEE50210000E43D /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 		F31BE8581FF2C2260000E43D /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		F31BE85A1FF3A9200000E43D /* TrendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
+		F31BE85C1FF3ABAC0000E43D /* SubscriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +164,8 @@
 				F31BE84C1FE93C3D0000E43D /* MenuBar.swift */,
 				F31BE8531FEBA8C60000E43D /* SettingCell.swift */,
 				F31BE8581FF2C2260000E43D /* FeedCell.swift */,
+				F31BE85A1FF3A9200000E43D /* TrendingCell.swift */,
+				F31BE85C1FF3ABAC0000E43D /* SubscriptionCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -325,6 +331,7 @@
 			files = (
 				F31BE81A1FE90AE20000E43D /* HomeController.swift in Sources */,
 				F31BE8591FF2C2260000E43D /* FeedCell.swift in Sources */,
+				F31BE85B1FF3A9200000E43D /* TrendingCell.swift in Sources */,
 				F31BE8501FE97C0F0000E43D /* Video.swift in Sources */,
 				F31BE8541FEBA8C60000E43D /* SettingCell.swift in Sources */,
 				F31BE84A1FE930E10000E43D /* VideoCell.swift in Sources */,
@@ -332,6 +339,7 @@
 				F31BE8571FEE50210000E43D /* ApiService.swift in Sources */,
 				F31BE8471FE930820000E43D /* Extensions.swift in Sources */,
 				F31BE8181FE90AE20000E43D /* AppDelegate.swift in Sources */,
+				F31BE85D1FF3ABAC0000E43D /* SubscriptionCell.swift in Sources */,
 				F31BE84D1FE93C3D0000E43D /* MenuBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

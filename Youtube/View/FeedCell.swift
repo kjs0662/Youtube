@@ -20,7 +20,6 @@ class FeedCell: BaseCell, UICollectionViewDataSource, UICollectionViewDelegate, 
     }()
     
     let cellID = "cellID"
-    
     var videos: [Video]?
     
     func fetchVideos() {
@@ -33,7 +32,6 @@ class FeedCell: BaseCell, UICollectionViewDataSource, UICollectionViewDelegate, 
     override func setupViews() {
         super.setupViews()
         fetchVideos()
-        
         addSubview(collectionView)
         addConstraintsWithFormat(format: "H:|[v0]|", views: collectionView)
         addConstraintsWithFormat(format: "V:|[v0]|", views: collectionView)
@@ -65,6 +63,5 @@ class FeedCell: BaseCell, UICollectionViewDataSource, UICollectionViewDelegate, 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
     
 }

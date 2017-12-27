@@ -10,9 +10,22 @@ import UIKit
 
 class ApiService: NSObject {
     static let sharedInstance = ApiService()
+    let baseUrl = "https://s3-us-west-2.amazonaws.com/youtubeassets"
     
     func fetchVideo(completion: @escaping ([Video]) -> ()) {
-        let url = URL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
+        fetchFeedForUrlString(urlString: "\(baseUrl)/home.json", completion: completion)
+    }
+    
+    func fetchTrendingFeed(completion: @escaping ([Video]) -> ()) {
+        fetchFeedForUrlString(urlString: "\(baseUrl)/trending.json", completion: completion)
+    }
+    
+    func fetchSubscriptionFeed(completion: @escaping ([Video]) -> ()) {
+        fetchFeedForUrlString(urlString: "\(baseUrl)/subscriptions.json", completion: completion)
+    }
+    
+    func fetchFeedForUrlString(urlString: String, completion: @escaping ([Video]) -> ()) {
+        let url = URL(string: urlString)
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
             if error != nil {
                 print(error, "Something wrong")
@@ -26,21 +39,21 @@ class ApiService: NSObject {
                     let video = Video()
                     video.title = dictionary["title"] as? String
                     video.thumbnailImageName = dictionary["thumbnail_image_name"] as? String
-
+                    
                     let  channelDictionary = dictionary["channel"] as! [String: Any]
                     let channel = Channel()
                     channel.name = channelDictionary["name"] as? String
                     channel.profileImageName = channelDictionary["profile_image_name"] as? String
-
+                    
                     video.channel = channel
-
+                    
                     videos.append(video)
                 }
-
+                
                 DispatchQueue.main.async(execute: {
                     completion(videos)
                 })
-
+                
             } catch let jsonError {
                 print(jsonError)
             }
