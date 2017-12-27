@@ -18,6 +18,28 @@ class VideoPlayerView: UIView {
         return aiv
     }()
     
+    let closeButton: UIButton = {
+        let button = UIButton(type: UIButtonType.system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tintColor = .white
+        button.setImage(UIImage(named: "cancel"), for: .normal)
+        button.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func handleClose() {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            if let keyWindow = UIApplication.shared.keyWindow {
+                videoView?.frame = CGRect(x: 0, y: keyWindow.frame.height - 10, width: keyWindow.frame.width, height: 10)
+            }
+            
+        }, completion: { (completedAnimation) in
+            UIApplication.shared.isStatusBarHidden = false
+            self.player?.pause()
+            videoView?.removeFromSuperview()
+        })
+    }
+    
     let pausePlayButton : UIButton = {
         let button = UIButton(type: UIButtonType.system)
         let image = UIImage(named: "pause")
@@ -132,6 +154,12 @@ class VideoPlayerView: UIView {
         currentTimeLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
         currentTimeLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
+        controlContainerView.addSubview(closeButton)
+        closeButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        closeButton.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        closeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
         backgroundColor = .black
     }
     
@@ -201,25 +229,27 @@ class VideoPlayerView: UIView {
     
 }
 
+var videoView: UIView?
+
 class VideoLauncher {
     func showVideoPlayer() {
         if let keyWindow = UIApplication.shared.keyWindow {
-            let view = UIView(frame: keyWindow.frame)
+            videoView = UIView(frame: keyWindow.frame)
             
-            view.backgroundColor = .white
+            videoView?.backgroundColor = .white
             
-            view.frame = CGRect(x: 0, y: keyWindow.frame.height - 10, width: keyWindow.frame.width, height: 10)
+            videoView?.frame = CGRect(x: 0, y: keyWindow.frame.height - 10, width: keyWindow.frame.width, height: 10)
             
             // 16 x 9 is the aspect ratio of all HD videos
             let height = keyWindow.frame.width * 9 / 16
             let videoPlayerFrame = CGRect(x: 0, y: 0, width: keyWindow.frame.width, height: height)
             let videoPlayerView = VideoPlayerView(frame: videoPlayerFrame)
-            view.addSubview(videoPlayerView)
-            keyWindow.addSubview(view)
+            videoView?.addSubview(videoPlayerView)
+            keyWindow.addSubview(videoView!)
             
             UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 
-                view.frame = keyWindow.frame
+                videoView?.frame = keyWindow.frame
                 
             }, completion: { (completedAnimation) in
                 
