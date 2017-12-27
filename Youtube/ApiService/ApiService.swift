@@ -13,7 +13,7 @@ class ApiService: NSObject {
     let baseUrl = "https://s3-us-west-2.amazonaws.com/youtubeassets"
     
     func fetchVideo(completion: @escaping ([Video]) -> ()) {
-        fetchFeedForUrlString(urlString: "\(baseUrl)/home.json", completion: completion)
+        fetchFeedForUrlString(urlString: "\(baseUrl)/home_num_likes.json", completion: completion)
     }
     
     func fetchTrendingFeed(completion: @escaping ([Video]) -> ()) {
@@ -39,6 +39,8 @@ class ApiService: NSObject {
                     let video = Video()
                     video.title = dictionary["title"] as? String
                     video.thumbnailImageName = dictionary["thumbnail_image_name"] as? String
+                    video.numberOfViews = dictionary["number_of_views"] as? NSNumber
+                    video.duration = dictionary["duration"] as? NSNumber
                     
                     let  channelDictionary = dictionary["channel"] as! [String: Any]
                     let channel = Channel()
